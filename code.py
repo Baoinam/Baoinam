@@ -29,8 +29,7 @@ def load_images():
 
         
         image_list.append([
-            ImageTk.PhotoImage(Image.open(dir_path + '' + image_files[r]).resize(50, 50, 
-                                                                                 Image.LANCZOS)),
+            ImageTk.PhotoImage(Image.open(dir_path + '/' + image_files[r]).resize((50, 50), Image.LANCZOS)),
 
         ImageTk.PhotoImage(
             Image.open(dir_path + '/' + image_files[r]).resize((480, 360), 
