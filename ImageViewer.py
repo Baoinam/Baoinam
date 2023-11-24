@@ -5,7 +5,7 @@ from PIL import Image, ImageTk
 import os
 
 root = tk.Tk()
-root.geometry('500x550')
+root.geometry('500x500')
 root.title('FotoFoto')
 
 
@@ -29,8 +29,8 @@ def load_images():
 
         
         image_list.append([
-            ImageTk.PhotoImage(Image.open(dir_path + '/' + image_files[r]).resize((50, 50), Image.LANCZOS)), 
-            ImageTk.PhotoImage(Image.open(dir_path + '/' + image_files[r]).resize((500, 500),Image.LANCZOS))]) 
+            ImageTk.PhotoImage(Image.open(dir_path + '/' + image_files[r]).resize((50, 50))), 
+            ImageTk.PhotoImage(Image.open(dir_path + '/' + image_files[r]).resize((480, 360)))]) 
         
         image_vars.append(f'img_{r}')
     
@@ -40,7 +40,7 @@ def load_images():
                                              command=lambda n=n:display_images(n))
         globals()[image_vars[n]].pack(side=tk.LEFT)
 
-
+#Buttons
 menu_btn = tk.Button(root, text='Open Folder', bd=0, font=('Bold', 15))
 menu_btn.pack(side=tk.TOP, anchor=tk.W, pady=20, padx=20)
 menu_btn.bind('<Button-1>', popup_menu)
@@ -53,8 +53,8 @@ image_display_lb.pack(anchor=tk.CENTER)
 
 canvas = tk.Canvas(root, height=60, width=500)
 canvas.pack(side=tk.BOTTOM, fill=tk.X)
-
-x_scroll_bar = tk.Scrollbar(root, orient=tk.HORIZONTAL)
+#scroll bar button
+x_scroll_bar = ttk.Scrollbar(root, orient=tk.HORIZONTAL)
 x_scroll_bar.pack(side=tk.BOTTOM, fill=tk.X)
 x_scroll_bar.config(command=canvas.xview)
 
@@ -62,6 +62,6 @@ canvas.config(xscrollcommand=x_scroll_bar.set)
 canvas.bind('<Configure>', lambda e: canvas.bbox('all'))
 
 slider = tk.Frame(canvas)
-canvas.create_window((0, 0), window=slider, anchor=tk.NW)
+canvas.create_window((10, 10), window=slider, anchor=tk.NW)
 
 root.mainloop()
