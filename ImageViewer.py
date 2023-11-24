@@ -18,7 +18,7 @@ image_list = []
 image_vars = []
 
 def display_images(index):
-    image_display_lb.config(image=image_list[i][1])
+    image_display_lb.config(image=image_list[index][1])
 
 def load_images():
     dir_path = tk_file.askdirectory()
@@ -30,7 +30,7 @@ def load_images():
         
         image_list.append([
             ImageTk.PhotoImage(Image.open(dir_path + '/' + image_files[r]).resize((50, 50), Image.LANCZOS)), 
-            ImageTk.PhotoImage(Image.open(dir_path + '/' + image_files[r]).resize((480, 360),Image.LANCZOS))]) 
+            ImageTk.PhotoImage(Image.open(dir_path + '/' + image_files[r]).resize((500, 500),Image.LANCZOS))]) 
         
         image_vars.append(f'img_{r}')
     
