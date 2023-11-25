@@ -3,12 +3,15 @@ from tkinter import filedialog
 from tkinter import colorchooser
 from PIL import Image, ImageOps, ImageTk, ImageFilter
 from tkinter import ttk
-import os
+from subprocess import call 
 
+import os
 root = tk.Tk()
 root.geometry("1000x600")
 root.title("FotoFoto")
 root.config(bg="white")
+
+
 
 pen_color = "black"
 pen_size = 5
@@ -52,7 +55,7 @@ def clear_canvas():
 def apply_filter(filter):
     image = Image.open(file_path)
     width, height = int(image.width / 2), int(image.height / 2)
-    image = image.resize((width, height), Image.ANTIALIAS)
+    image = image.resize((width, height), Image.LANCZOS)
     if filter == "Black and White":
         image = ImageOps.grayscale(image)
     elif filter == "Blur":
@@ -68,9 +71,10 @@ def apply_filter(filter):
     canvas.create_image(0, 0, image=image, anchor="nw")
 
 
+filename = "ImageViewer.py"
 def return_to():
     root.destroy()
-    os.system("ImageViewer.py")
+    os.system(f"python {filename}")
 
 
 left_frame = tk.Frame(root, width=200, height=600, bg="white")
@@ -79,6 +83,7 @@ left_frame.pack(side="left", fill="y")
 canvas = tk.Canvas(root, width=750, height=600)
 canvas.pack()
 
+#Buttons
 image_button = tk.Button(left_frame, text="Add Image",
                          command=add_image, bg="white")
 image_button.pack(pady=15)
@@ -114,12 +119,13 @@ filter_combobox = ttk.Combobox(left_frame, values=["Black and White", "Blur",
 filter_combobox.pack()
 
 return_button = tk.Button(left_frame, text="Return",
-                          command=return_to, bg="#FF9797")
+                          bg="#FF9797", command=return_to)
 return_button.pack(pady=20)
 
 filter_combobox.bind("<<ComboboxSelected>>",
                      lambda event: apply_filter(filter_combobox.get()))
 
 canvas.bind("<B1-Motion>", draw)
+
 
 root.mainloop()
