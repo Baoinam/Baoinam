@@ -3,7 +3,7 @@ from tkinter import filedialog
 from tkinter import colorchooser
 from PIL import Image, ImageOps, ImageTk, ImageFilter
 from tkinter import ttk
-
+import os
 
 root = tk.Tk()
 root.geometry("1000x600")
@@ -21,7 +21,7 @@ def add_image():
         initialdir="D:/codefirst.io/Tkinter Image Editor/Pictures")
     image = Image.open(file_path)
     width, height = int(image.width / 2), int(image.height / 2)
-    image = image.resize((width, height), Image.ANTIALIAS)
+    image = image.resize((width, height), Image.LANCZOS)
     canvas.config(width=image.width, height=image.height)
     image = ImageTk.PhotoImage(image)
     canvas.image = image
@@ -42,7 +42,7 @@ def draw(event):
     x1, y1 = (event.x - pen_size), (event.y - pen_size)
     x2, y2 = (event.x + pen_size), (event.y + pen_size)
     canvas.create_oval(x1, y1, x2, y2, fill=pen_color, outline='')
-    
+
 
 def clear_canvas():
     canvas.delete("all")
@@ -66,6 +66,11 @@ def apply_filter(filter):
     image = ImageTk.PhotoImage(image)
     canvas.image = image
     canvas.create_image(0, 0, image=image, anchor="nw")
+
+
+def return_to():
+    root.destroy()
+    os.system("ImageViewer.py")
 
 
 left_frame = tk.Frame(root, width=200, height=600, bg="white")
@@ -105,13 +110,15 @@ clear_button.pack(pady=10)
 filter_label = tk.Label(left_frame, text="Select Filter", bg="white")
 filter_label.pack()
 filter_combobox = ttk.Combobox(left_frame, values=["Black and White", "Blur",
-                                             "Emboss", "Sharpen", "Smooth"])
+                                                   "Emboss", "Sharpen", "Smooth"])
 filter_combobox.pack()
 
+return_button = tk.Button(left_frame, text="Return",
+                          command=return_to, bg="#FF9797")
+return_button.pack(pady=20)
 
 filter_combobox.bind("<<ComboboxSelected>>",
                      lambda event: apply_filter(filter_combobox.get()))
-
 
 canvas.bind("<B1-Motion>", draw)
 
