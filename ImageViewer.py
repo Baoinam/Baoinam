@@ -9,7 +9,6 @@ root.geometry('500x500')
 root.title('FotoFoto')
 
 
-
 def popup_menu(e):
     menu_bar.tk_popup(x=e.x_root, y=e.y_root)
 
@@ -17,8 +16,10 @@ def popup_menu(e):
 image_list = []
 image_vars = []
 
+
 def display_images(index):
     image_display_lb.config(image=image_list[index][1])
+
 
 def load_images():
     dir_path = tk_file.askdirectory()
@@ -26,23 +27,31 @@ def load_images():
     image_files = os.listdir(dir_path)
 
     for r in range(0, len(image_files)):
-
-        
         image_list.append([
-            ImageTk.PhotoImage(Image.open(dir_path + '/' + image_files[r]).resize((50, 50))), 
-            ImageTk.PhotoImage(Image.open(dir_path + '/' + image_files[r]).resize((480, 360)))]) 
-        
+            ImageTk.PhotoImage(Image.open(dir_path + '/' + image_files[r]).resize((50, 50))),
+            ImageTk.PhotoImage(Image.open(dir_path + '/' + image_files[r]).resize((480, 360)))])
+
         image_vars.append(f'img_{r}')
-    
-    
+
     for n in range(len(image_vars)):
         globals()[image_vars[n]] = tk.Button(slider, image=image_list[n][0], bd=0,
-                                             command=lambda n=n:display_images(n))
+                                             command=lambda n=n: display_images(n))
         globals()[image_vars[n]].pack(side=tk.LEFT)
 
-#Buttons
+
+def open_editor_page():
+    root.destroy()
+    os.system("EditingPage.py")
+
+
+# Buttons
+
+editor_page_btn = tk.Button(root, text='Edit', bd=0, font=('Bold', 15),
+                            command=open_editor_page)
+editor_page_btn.pack(side=tk.TOP, anchor=tk.W, pady=20, padx=20)
+
 menu_btn = tk.Button(root, text='Open Folder', bd=0, font=('Bold', 15))
-menu_btn.pack(side=tk.TOP, anchor=tk.W, pady=20, padx=20)
+menu_btn.pack(side=tk.TOP, anchor=tk.W, pady=10, padx=20)
 menu_btn.bind('<Button-1>', popup_menu)
 
 menu_bar = tk.Menu(root, tearoff=False)
@@ -53,7 +62,7 @@ image_display_lb.pack(anchor=tk.CENTER)
 
 canvas = tk.Canvas(root, height=60, width=500)
 canvas.pack(side=tk.BOTTOM, fill=tk.X)
-#scroll bar button
+# scroll bar button
 x_scroll_bar = ttk.Scrollbar(root, orient=tk.HORIZONTAL)
 x_scroll_bar.pack(side=tk.BOTTOM, fill=tk.X)
 x_scroll_bar.config(command=canvas.xview)
